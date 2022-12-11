@@ -17,6 +17,8 @@ for j = 1:numel(index)-1
     heights(end+1) = max(elevation) - min(elevation);
     timeperiods(end+1) = t(index(j+1)) - t(index(j)+1);
 end
-
+heights = heights';
+timeperiods = timeperiods';
+index = index';
 end
 
