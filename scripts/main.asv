@@ -103,12 +103,12 @@ p_exceed_obs = 1 - prob;
 
 % rayleigh probability of exceedance
 x = linspace(0,max(wave_hts),100);
-p_exceed_rayleigh = exp(-(x./Hrms).^2);
+p_exceed_rayleigh = exp(-(wave_hts./Hrms).^2);
 
 figure();
 hold on;
 grid on;
-plot(linspace(0,max(wave_hts),numel(p_exceed_obs)), p_exceed_obs,'square');
+plot(linspace(1,max(wave_hts))p_exceed_obs,'square');
 plot(x, p_exceed_rayleigh);
 xlabel('$H (m)$','Interpreter','latex');
 ylabel('$P(H)$','Interpreter','latex');
