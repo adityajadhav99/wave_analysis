@@ -54,6 +54,39 @@ legend("Observed Distribution","Theoretical Distribution")
 title('Comparison of Distributions (Wave elevations)')
 hold off
 
+%% wave height analysis
+
 % calculating wave heights using upcrossing method
 [wave_hts, timeperiods, id] = upcrossing(eta,time);
 
+sorted_wvhts = sort(wave_hts,'descend');
+
+% first 1/n waves to calculate the significant wave height
+n = 10;
+Hs = mean(sorted_wvhts(1:round(numel(wave_hts)/n)));
+
+bin_width = 0.02;
+nbins = round((max(wave_hts) - min(wave_hts))/bin_width);
+
+figure;
+h_waveht = histogram(wave_hts,nbins);
+xlabel('$H (m)$','Interpreter','latex');
+ylabel('number of data points');
+title('Wave Height Histogram Plot');
+
+% compare theoretical vs observed pdf
+obs_ht_dist = h_waveht.Values/sum(h_waveht.Values)/bin_width;
+x = linspace(0,0.3,100);
+Hrms = rms(wave_hts);
+rayleigh_dist = (2*x/(Hrms^2)).*exp(-(x.^2)/Hrms^2);
+
+figure();
+hold on;
+grid on;
+plot(h_waveht.BinEdges(1:end-1), obs_ht_dist,'square');
+plot(x, rayleigh_dist);
+xlabel('$H (m)$','Interpreter','latex');
+ylabel('$p(H)$','Interpreter','latex');
+legend("Observed Distribution","Rayleigh Distribution")
+title('Comparison of Distributions (Wave Heights)')
+hold off
