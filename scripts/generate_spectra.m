@@ -8,7 +8,8 @@ function [mag, phase, frequencies] = generate_spectra(data, t, Tavg, varargin)
 %   DATA            wave elevation data
 %   t               corresponding time
 %   Tavg            average timeperiod
-% [mag, phase, frequencies] = generate_spectra(data,t,'PARAM',val) specifies optional parameter name/value pairs:
+% 
+%   [mag, phase, frequencies] = generate_spectra(data,t,'PARAM',val) specifies optional parameter name/value pairs:
 %        'Plot'      - Outputs the fft magnitude and phase plot. Default
 %        value as false.
 
