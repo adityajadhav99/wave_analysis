@@ -1,4 +1,4 @@
-function [outputArg1,outputArg2] = validate_wvhtdata(data,t,varargin)
+function validate_wvhtdata(data,t,varargin)
 %VALIDATE_WVHTDATA Summary of this function goes here
 %   Detailed explanation goes here
 set(0,'DefaultAxesFontName','Times New Roman')
@@ -19,6 +19,12 @@ bin_width = (max(wave_hts)-min(wave_hts))/nbins;
 
 figure;
 h_waveht = histogram(wave_hts,nbins);
+binCenter = zeros(nbins,1);
+
+for i=1:numel(h_waveht.BinEdges)-1
+binCenter(i) = (h_waveht.BinEdges(i)+h_waveht.BinEdges(i+1))/2;
+end
+
 xlabel('$H (m)$','Interpreter','latex');
 ylabel('number of data points');
 title('Wave Height Histogram Plot');
@@ -41,7 +47,7 @@ if wvhtPDF_flag
     figure();
     hold on;
     grid on;
-    plot(h_waveht.BinEdges(1:end-1), obs_ht_dist,'square');
+    plot(binCenter, obs_ht_dist,'square');
     plot(x, rayleigh_dist);
     xlabel('$H (m)$','Interpreter','latex');
     ylabel('$p(H)$','Interpreter','latex');

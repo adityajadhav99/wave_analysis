@@ -1,4 +1,4 @@
-function [mag, phase, frequencies] = generate_spectra(data, t, Tavg, varargin)
+function [mag, phase, frequencies, varargout] = generate_spectra(data, t, Tavg, varargin)
 %GENERATE_SPECTRA generates the fft spectra of the given data
 %   [mag, phase, frequencies] = generate_spectra(data, t)
 %   MAG             FFT magnitude corresponding to each frequency
@@ -18,6 +18,9 @@ function [mag, phase, frequencies] = generate_spectra(data, t, Tavg, varargin)
 p = inputParser;
 addParameter(p, 'Plot', false, @islogical);
 addParameter(p, 'ComparePM', false, @islogical);
+paramName = 'Smoothen';
+defaultVal = 0;
+addParameter(p,paramName,defaultVal)
 parse(p, varargin{:});
 
 fft_data = fft(data); % a + ib
@@ -75,13 +78,51 @@ if pm_flag
     figure();
     hold on;
     grid on;
-    plot(frequencies(1:floor(N/2)+1), mag(1:floor(N/2)+1));
+    plot(frequencies(1:floor(N/2)+1), mag(1:floor(N/2)+1)/2);
     plot(f,S);
     xlabel('f (hz)');
     ylabel('m^2/hz');
     hold off;
     
 end
+
 % we can perform smoothing here
+if p.Results.Smoothen == 0
+
+    windowSize = 30; 
+    b = (1/windowSize)*ones(1,windowSize);
+    a = 1;
+    filtered_mag = filter(b,a,mag(1:floor(N/2)+1));
+
+    set(0,'DefaultAxesFontName','Times New Roman')
+    set(0,'DefaultAxesFontSize',14)
+    set(0,'DefaultLineLineWidth',2.5)
+    figure();
+    hold on;
+    grid on;
+    plot(frequencies(1:floor(N/2)+1), mag(1:floor(N/2)+1));
+    plot(frequencies(1:floor(N/2)+1),filtered_mag)
+    xlabel('Frequency (Hz)');
+    ylabel('FFT magnitude');
+    legend('fft', 'moving average')
+    hold off;
+end
+if p.Results.Smoothen == 1
+    wt = lanc(200,1/50);
+    lanc_filtered = conv(mag(1:floor(N/2)+1),wt,'same');
+
+    set(0,'DefaultAxesFontName','Times New Roman')
+    set(0,'DefaultAxesFontSize',14)
+    set(0,'DefaultLineLineWidth',2)
+    figure();
+    hold on;
+    grid on;
+    plot(frequencies(1:floor(N/2)+1), mag(1:floor(N/2)+1));
+    plot(frequencies(1:floor(N/2)+1),lanc_filtered)
+    xlabel('Frequency (Hz)');
+    ylabel('FFT magnitude');
+    legend('fft', 'lanczos')
+    hold off;
+end
 end
 

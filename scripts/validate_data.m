@@ -33,6 +33,12 @@ bin_width = (max(eta)-min(eta))/nbins;
 
 figure;
 h = histogram(eta,nbins);
+binCenter = zeros(nbins,1);
+
+for i=1:numel(h.BinEdges)-1
+binCenter(i) = (h.BinEdges(i)+h.BinEdges(i+1))/2;
+end
+
 xlabel('$\eta$','Interpreter','latex');
 ylabel('number of data points');
 title('Histogram Plot');
@@ -55,7 +61,7 @@ if etaPDF_flag
     figure();
     hold on;
     grid on;
-    plot(h.BinEdges(1:end-1), obs_dist,'square');
+    plot(binCenter, obs_dist,'square');
     plot(x, theor_dist);
     xlabel('$\eta (m)$','Interpreter','latex');
     ylabel('$p(\eta)$','Interpreter','latex');
