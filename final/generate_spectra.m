@@ -96,12 +96,12 @@ if p.Results.Smoothen == 0
 
     set(0,'DefaultAxesFontName','Times New Roman')
     set(0,'DefaultAxesFontSize',14)
-    set(0,'DefaultLineLineWidth',1.5)
+    set(0,'DefaultLineLineWidth',2.5)
     figure();
     hold on;
     grid on;
     plot(frequencies(1:floor(N/2)+1), mag(1:floor(N/2)+1));
-    plot(frequencies(1:floor(N/2)+1),filtered_mag,'LineWidth',3.5);
+    plot(frequencies(1:floor(N/2)+1),filtered_mag)
     xlabel('Frequency (Hz)');
     ylabel('FFT magnitude');
     legend('fft', 'moving average')
@@ -113,12 +113,12 @@ if p.Results.Smoothen == 1
 
     set(0,'DefaultAxesFontName','Times New Roman')
     set(0,'DefaultAxesFontSize',14)
-    set(0,'DefaultLineLineWidth',1.5)
+    set(0,'DefaultLineLineWidth',2)
     figure();
     hold on;
     grid on;
     plot(frequencies(1:floor(N/2)+1), mag(1:floor(N/2)+1));
-    plot(frequencies(1:floor(N/2)+1),lanc_filtered,'LineWidth',3.5);
+    plot(frequencies(1:floor(N/2)+1),lanc_filtered)
     xlabel('Frequency (Hz)');
     ylabel('FFT magnitude');
     legend('fft', 'lanczos')

@@ -58,11 +58,6 @@ if etaPDF_flag
     x          = linspace(round(min_eta,1),round(max_eta,1),100);
     theor_dist = exp(-(x - mean(eta)).^2/2/std_dev^2)/(std_dev*sqrt(2*pi));
 
-%     err = obs_dist - theor_dist(x);
-%     rmse = rms(err);
-% 
-%     disp(['RMSE betn observed and analyitical wave elevation pdf is ',num2str(rmse)])
-
     figure();
     hold on;
     grid on;
